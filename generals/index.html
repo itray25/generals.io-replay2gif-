@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>generals.io replay2gif</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <style>
+      .headers {
+        height: 60px;
+        background-color: #03a9f4;
+      }
+
+      #title {
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        display: inline-block;
+        font-size: 20px;
+        position: absolute;
+        color: #e96900;
+        margin: 0 2px;
+        background-color: #f8f8f8;
+        white-space: pre-wrap;
+        padding: 5px;
+        vertical-align: middle;
+        left: 100px;
+        border-radius: 4px 4px 4px 4px;
+        top: 15px;
+      }
+      #badge {
+        position: absolute;
+        top: 30px;
+        left: 330px;
+      }
+      #gen {
+        display: inline;
+        color: #059999;
+      }
+      #icon {
+        position: absolute;
+        left: 45px;
+        width: 40px;
+        border-radius: 26px;
+        top: 10px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        padding: 2px;
+      }
+      #list {
+        width: 450px;
+        height: 120px;
+        position: relative;
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        margin-left: 60px;
+      }
+      #info {
+        width: 300px;
+        height: 20px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="headers">
+      <xy-img
+        src="https://pic.imgdb.cn/item/64bbbf901ddac507cc0fac50.png"
+        id="icon"
+      ></xy-img>
+      <div id="title"><b id="gen">generals.io </b>replay2gif</div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="100"
+        height="20"
+        id="badge"
+      >
+        <linearGradient id="m1" x2="0" y2="100%">
+          <stop offset="0" stop-color="#bbb" stop-opacity=".1" />
+          <stop offset="1" stop-opacity=".1" />
+        </linearGradient>
+        <g mask="url(#m1)">
+          <rect
+            x="0"
+            y="0"
+            width="90"
+            height="20"
+            rx="3"
+            ry="3"
+            style="fill: #555"
+          />
+          <rect x="60" y="0" width="10" height="20" style="fill: #007ec6" />
+          <rect
+            x="70"
+            y="0"
+            width="30"
+            height="20"
+            rx="3"
+            ry="3"
+            style="fill: #007ec6"
+          />
+          <path fill="url(#m1)" d="M0 0h100v20H0z" />
+        </g>
+        <g
+          font-family="DejaVu Sans,Verdana,Geneva,sans-serif"
+          font-size="12"
+          fill="#fff"
+        >
+          <g>
+            <text x="8" y="15" fill="#DDD" fill-opacity=".4">licence</text>
+            <text x="8" y="14">licence</text>
+          </g>
+          <g>
+            <text x="68" y="15" fill="#DDD" fill-opacity=".4">MIT</text>
+            <text x="68" y="14">MIT</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div id="main" style="padding-top:50px">
+      <div id="list">
+        <xy-form style="padding-top: 20px; padding-left: 15px">
+          <xy-form-item legend="输入回放链接">
+            <xy-input
+              icon="Import"
+              required
+              placeholder="https://generals.io/replays/r6KY-T7Q3"
+              style="width: 300px" id="inputx"
+            ></xy-input>
+          </xy-form-item>
+          <xy-form-item>
+            <xy-button type="primary" icon="upload" id="submit">生成GIF</xy-button>
+          </xy-form-item>
+        </xy-form>
+      </div>
+      <div id="show" style="height: 400px; margin: 60px">
+        <xy-img
+          src="https://cospi.tk/generals_file/replays/r6KY-T7Q3.gif"
+          style="height: 300px; width: 300px"
+        id="imgx"></xy-img>
+        <div id="info">预览</div>
+      </div>
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script type="module" src="./xy-ui/index.js"></script>
+    <script>
+      function proc(req){
+          XyMessage.info('处理成功')
+          $("#submit").removeAttr('loading');
+          console.log(req.result)
+          $("#imgx").attr('src',req.result)
+
+        }
+        $("#submit").on("click",function(){
+
+          idx=$("#inputx").val().split("s/")[1];
+        XyMessage.info('处理中...')
+        $("#submit").attr('loading','true');
+        console.log(idx)
+        fetch("https://api.cospi.tk/gen_replay/?id="+idx).then(req=>req.json()).then(req=>proc(req))
+        })
+    </script>
+  </body>
+</html>
