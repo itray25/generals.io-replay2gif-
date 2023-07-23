@@ -50,10 +50,36 @@
         box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         margin-left: 60px;
       }
-      #info {
+      #infox {
         width: 300px;
-        height: 20px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+      }
+      #info {
         text-align: center;
+        width: auto;
+        padding: 5px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        color: white;
+        border-radius: 3px;
+        margin-top: 5px;
+        background-color: #42b983;
+      }
+      #show {
+        height: 400px;
+        width: 300px;
+        margin: 60px;
+      }
+
+      #thanks {
+        margin-bottom: 50px;
+        margin-left: 50px;
+        background-color: #00bcd4;
+        color: white;
+        width: 450px;
+        padding-left: 10px;
+        border-radius: 0px 0px 5px 5px  ;
       }
     </style>
   </head>
@@ -112,7 +138,10 @@
         </g>
       </svg>
     </div>
-    <div id="main" style="padding-top:50px">
+    <div id="main">
+      <div id="thanks">
+        With regards to https://github.com/andyleap/giorengine!
+      </div>
       <div id="list">
         <xy-form style="padding-top: 20px; padding-left: 15px">
           <xy-form-item legend="输入回放链接">
@@ -120,40 +149,53 @@
               icon="Import"
               required
               placeholder="https://generals.io/replays/r6KY-T7Q3"
-              style="width: 300px" id="inputx"
+              style="width: 300px"
+              id="inputx"
             ></xy-input>
           </xy-form-item>
           <xy-form-item>
-            <xy-button type="primary" icon="upload" id="submit">生成GIF</xy-button>
+            <xy-button type="primary" icon="upload" id="submit"
+              >生成GIF</xy-button
+            >
           </xy-form-item>
         </xy-form>
       </div>
       <div id="show" style="height: 400px; margin: 60px">
         <xy-img
-          src="https://cospi.tk/generals_file/replays/r6KY-T7Q3.gif"
+          src="https://cospi.tk/generals_file/replays/aVxQjPVV9.gif"
           style="height: 300px; width: 300px"
-        id="imgx"></xy-img>
-        <div id="info">预览</div>
+          id="imgx"
+        ></xy-img>
+        <div id="infox">
+          <div id="info"><xy-icon name="info-circle"></xy-icon>预览</div>
+        </div>
       </div>
     </div>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script type="module" src="./xy-ui/index.js"></script>
     <script>
-      function proc(req){
-          XyMessage.info('处理成功')
-          $("#submit").removeAttr('loading');
-          console.log(req.result)
-          $("#imgx").attr('src',req.result)
-
+      function proc(req) {
+        XyMessage.info("处理成功");
+        $("#submit").removeAttr("loading");
+        console.log(req.result);
+        $("#imgx").attr("src", req.result);
+        $("#info").text("请右键保存");
+      }
+      $("#submit").on("click", function () {
+        idx = $("#inputx").val().split("s/")[1];
+        if (idx != undefined && idx !="") {
+          XyMessage.info("处理中...");
+          $("#submit").attr("loading", "true");
+          $("#imgx").attr("src", "");
+          $("#info").text("正在处理");
+          console.log(idx);
+          fetch("https://api.cospi.tk/gen_replay/?id=" + idx)
+            .then((req) => req.json())
+            .then((req) => proc(req));
+        } else {
+          XyMessage.info("请正确输入回放链接");
         }
-        $("#submit").on("click",function(){
-
-          idx=$("#inputx").val().split("s/")[1];
-        XyMessage.info('处理中...')
-        $("#submit").attr('loading','true');
-        console.log(idx)
-        fetch("https://api.cospi.tk/gen_replay/?id="+idx).then(req=>req.json()).then(req=>proc(req))
-        })
+      });
     </script>
   </body>
 </html>
