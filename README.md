@@ -7,4 +7,5 @@ with regards to https://github.com/andyleap/giorengine!
 just expose the index.html file to the Internet.
 ## back-end
 run with node.js and the api will be running on `localhost:1145`  
-be aware that some minor adjustment (eg. cors) may be applied to index.js
+be aware that some minor adjustment (eg. cors) may be applied to index.js  
+also, some file paths need modification in accordance to your server.
